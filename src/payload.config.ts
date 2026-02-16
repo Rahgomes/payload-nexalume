@@ -17,6 +17,12 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    routes: {
+      admin: '/painel',
+    },
+    meta: {
+      titleSuffix: ' | Nexa Lume',
+    },
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
@@ -28,7 +34,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
-    push: true, // Auto-sync schema
+    push: true,
+    prodMigrations: [],
   }),
   sharp,
   plugins: [],
