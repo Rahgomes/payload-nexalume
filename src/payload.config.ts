@@ -17,12 +17,12 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
-    routes: {
-      admin: '/painel',
-    },
     meta: {
       titleSuffix: ' | Nexa Lume',
     },
+  },
+  routes: {
+    admin: '/painel',
   },
   collections: [Users, Media],
   editor: lexicalEditor(),
