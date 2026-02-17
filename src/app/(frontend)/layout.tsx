@@ -1,4 +1,6 @@
 import React from 'react'
+import { QueryProvider } from '@/providers/QueryProvider'
+import './globals.css'
 import './styles.css'
 
 export const metadata = {
@@ -12,7 +14,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
+        <QueryProvider>
+          <main>{children}</main>
+        </QueryProvider>
       </body>
     </html>
   )

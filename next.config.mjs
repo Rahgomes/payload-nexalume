@@ -3,6 +3,9 @@ import { withPayload } from '@payloadcms/next/withPayload'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
+  compiler: {
+    styledComponents: true,
+  },
   async redirects() {
     return [
       {
