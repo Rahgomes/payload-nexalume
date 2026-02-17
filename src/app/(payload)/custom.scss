@@ -1,0 +1,45 @@
+/* ===== Tema Nexa Lume para o Admin Payload ===== */
+/* Substitui a escala cinza por tons azulados da marca */
+
+:root {
+  --color-base-0: #ffffff;
+  --color-base-50: #f5f7f8;
+  --color-base-100: #e8f1fa;
+  --color-base-150: #cddae7;
+  --color-base-200: #b3c6d9;
+  --color-base-250: #9ab3cc;
+  --color-base-300: #8daece;
+  --color-base-350: #7a9bbb;
+  --color-base-400: #6889a8;
+  --color-base-450: #577895;
+  --color-base-500: #476882;
+  --color-base-550: #3a5a73;
+  --color-base-600: #2e4d65;
+  --color-base-650: #244158;
+  --color-base-700: #1d364c;
+  --color-base-750: #172c40;
+  --color-base-800: #122b45;
+  --color-base-850: #0d2238;
+  --color-base-900: #0b1c2d;
+  --color-base-950: #081722;
+  --color-base-1000: #050f18;
+
+  --color-success-500: #1fa2ff;
+}
+
+/* Ajuste do botão toggle da sidebar */
+.template-default__nav-toggler-wrapper {
+  z-index: 30;
+}
+
+/* Topbar com destaque visual */
+.app-header {
+  background-color: var(--color-base-850);
+  border-bottom: 1px solid var(--color-base-800);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Padding no conteúdo para não colar na sidebar/topbar */
+.template-default__wrap {
+  padding: 1.5rem;
+}

@@ -1,0 +1,101 @@
+/* Dashboard Cards — Estilo Aceternity HoverEffect */
+/* Usa variáveis --color-base-* do tema azul */
+
+.dashboard-cards {
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-base-0);
+    margin-bottom: 1.5rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 0.5rem 0;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__item {
+    position: relative;
+    display: block;
+    padding: 0.5rem;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  &__highlight {
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    background-color: var(--color-base-800);
+    z-index: 0;
+  }
+
+  &__card {
+    position: relative;
+    z-index: 10;
+    border-radius: 1rem;
+    height: 100%;
+    width: 100%;
+    padding: 1.25rem;
+    overflow: hidden;
+    background-color: var(--color-base-900);
+    border: 1px solid var(--color-base-700);
+    transition: border-color 200ms ease;
+
+    .dashboard-cards__item:hover & {
+      border-color: var(--color-base-500);
+    }
+  }
+
+  &__card-content {
+    position: relative;
+    z-index: 20;
+  }
+
+  &__card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-base-800);
+    margin-bottom: 1rem;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--color-success-500);
+    }
+  }
+
+  &__card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-base-100);
+    letter-spacing: 0.025em;
+    margin: 0 0 0.75rem;
+  }
+
+  &__card-description {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-base-400);
+    margin: 0;
+  }
+}

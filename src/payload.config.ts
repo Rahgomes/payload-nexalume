@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { pt } from '@payloadcms/translations/languages/pt'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -12,6 +13,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  i18n: {
+    fallbackLanguage: 'pt',
+    supportedLanguages: { pt },
+  },
   admin: {
     user: Users.slug,
     importMap: {
@@ -19,6 +24,15 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: ' | Nexa Lume',
+    },
+    components: {
+      Nav: '@/components/admin/Nav#CustomNav',
+      views: {
+        dashboard: {
+          Component:
+            '@/components/admin/Dashboard/CollectionCards#CustomCollectionCards',
+        },
+      },
     },
   },
   routes: {
