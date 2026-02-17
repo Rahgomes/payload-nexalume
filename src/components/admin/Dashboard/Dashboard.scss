@@ -1,11 +1,11 @@
 /* Dashboard Cards — Estilo Aceternity HoverEffect */
-/* Usa variáveis --color-base-* do tema azul */
+/* Usa --theme-elevation-* para suporte a light/dark theme */
 
 .dashboard-cards {
   &__title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-base-0);
+    color: var(--theme-elevation-900);
     margin-bottom: 1.5rem;
   }
 
@@ -41,7 +41,7 @@
     position: absolute;
     inset: 0;
     border-radius: 1rem;
-    background-color: var(--color-base-800);
+    background-color: var(--theme-elevation-100);
     z-index: 0;
   }
 
@@ -53,12 +53,12 @@
     width: 100%;
     padding: 1.25rem;
     overflow: hidden;
-    background-color: var(--color-base-900);
-    border: 1px solid var(--color-base-700);
+    background-color: var(--theme-elevation-0);
+    border: 1px solid var(--theme-elevation-200);
     transition: border-color 200ms ease;
 
     .dashboard-cards__item:hover & {
-      border-color: var(--color-base-500);
+      border-color: var(--theme-elevation-350);
     }
   }
 
@@ -74,7 +74,7 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.5rem;
-    background-color: var(--color-base-800);
+    background-color: var(--theme-elevation-100);
     margin-bottom: 1rem;
 
     svg {
@@ -87,7 +87,7 @@
   &__card-title {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--color-base-100);
+    color: var(--theme-elevation-800);
     letter-spacing: 0.025em;
     margin: 0 0 0.75rem;
   }
@@ -95,7 +95,7 @@
   &__card-description {
     font-size: 0.8125rem;
     line-height: 1.5;
-    color: var(--color-base-400);
+    color: var(--theme-elevation-450);
     margin: 0;
   }
 }

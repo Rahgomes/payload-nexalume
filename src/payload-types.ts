@@ -120,6 +120,20 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  fullName: string;
+  /**
+   * Define as permissões de acesso do usuário no sistema.
+   */
+  role: 'admin' | 'editor' | 'viewer';
+  phone?: string | null;
+  /**
+   * Imagem de perfil do usuário.
+   */
+  profilePicture?: (number | null) | Media;
+  /**
+   * Usuários inativos não conseguem fazer login.
+   */
+  status: 'active' | 'inactive';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -237,6 +251,11 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  fullName?: T;
+  role?: T;
+  phone?: T;
+  profilePicture?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
