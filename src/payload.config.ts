@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
+import { Services } from './collections/Services'
+import { Clients } from './collections/Clients'
 import { MediaCategories } from './collections/MediaCategories'
 import { Media } from './collections/Media'
 
@@ -39,7 +41,7 @@ export default buildConfig({
   routes: {
     admin: '/painel',
   },
-  collections: [Users, MediaCategories, Media],
+  collections: [Users, Services, Clients, MediaCategories, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

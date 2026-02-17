@@ -11,6 +11,8 @@ import {
   TbSettings,
   TbCategory,
   TbChevronRight,
+  TbAddressBook,
+  TbBriefcase,
 } from 'react-icons/tb'
 
 import './Nav.scss'
@@ -19,6 +21,8 @@ const collectionIcons: Record<string, React.ReactNode> = {
   users: <TbUsers />,
   media: <TbPhoto />,
   'media-categories': <TbCategory />,
+  clients: <TbAddressBook />,
+  services: <TbBriefcase />,
 }
 
 type NavItem = {
@@ -31,12 +35,19 @@ type NavClientProps = {
   adminRoute: string
   items: NavItem[]
   mediaSubItems: NavItem[]
+  clientsSubItems: NavItem[]
 }
 
-export const NavClient: React.FC<NavClientProps> = ({ adminRoute, items, mediaSubItems }) => {
+export const NavClient: React.FC<NavClientProps> = ({
+  adminRoute,
+  items,
+  mediaSubItems,
+  clientsSubItems,
+}) => {
   const pathname = usePathname()
   const { navOpen, navRef } = useNav()
   const [mediaOpen, setMediaOpen] = useState(false)
+  const [clientsOpen, setClientsOpen] = useState(false)
 
   const isDashboardActive = pathname === adminRoute || pathname === `${adminRoute}/`
 
@@ -70,10 +81,13 @@ export const NavClient: React.FC<NavClientProps> = ({ adminRoute, items, mediaSu
         <div className="nexalume-nav__links">
           {items.map(({ href, label, slug }) => {
             const isMedia = slug === 'media'
-            const isMediaActive = pathname.startsWith(href)
+            const isClients = slug === 'clients'
+            const isCollectionActive = pathname.startsWith(href)
             const isMediaCategoryActive =
               isMedia && pathname.includes('/collections/media-categories')
-            const isActive = isMediaActive || isMediaCategoryActive
+            const isServicesActive =
+              isClients && pathname.includes('/collections/services')
+            const isActive = isCollectionActive || isMediaCategoryActive || isServicesActive
 
             if (isMedia && mediaSubItems.length > 0) {
               return (
@@ -98,6 +112,47 @@ export const NavClient: React.FC<NavClientProps> = ({ adminRoute, items, mediaSu
                     className={`nexalume-nav__submenu ${mediaOpen ? 'nexalume-nav__submenu--open' : ''}`}
                   >
                     {mediaSubItems.map((sub) => {
+                      const isSubActive = pathname.startsWith(sub.href)
+                      return (
+                        <Link
+                          key={sub.slug}
+                          href={sub.href}
+                          className={`nexalume-nav__submenu-link ${isSubActive ? 'nexalume-nav__submenu-link--active' : ''}`}
+                          prefetch={false}
+                        >
+                          {collectionIcons[sub.slug] ?? <TbLayoutDashboard />}
+                          <span className="nexalume-nav__link-label">{sub.label}</span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            }
+
+            if (isClients && clientsSubItems.length > 0) {
+              return (
+                <div
+                  key={slug}
+                  className="nexalume-nav__group"
+                  onMouseEnter={() => setClientsOpen(true)}
+                  onMouseLeave={() => setClientsOpen(false)}
+                >
+                  <Link
+                    href={href}
+                    className={`nexalume-nav__link ${isActive ? 'nexalume-nav__link--active' : ''}`}
+                    prefetch={false}
+                  >
+                    {collectionIcons[slug] ?? <TbLayoutDashboard />}
+                    <span className="nexalume-nav__link-label">{label}</span>
+                    <TbChevronRight
+                      className={`nexalume-nav__chevron ${clientsOpen ? 'nexalume-nav__chevron--open' : ''}`}
+                    />
+                  </Link>
+                  <div
+                    className={`nexalume-nav__submenu ${clientsOpen ? 'nexalume-nav__submenu--open' : ''}`}
+                  >
+                    {clientsSubItems.map((sub) => {
                       const isSubActive = pathname.startsWith(sub.href)
                       return (
                         <Link

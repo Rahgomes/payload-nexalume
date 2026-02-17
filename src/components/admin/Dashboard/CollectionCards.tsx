@@ -8,6 +8,8 @@ const collectionDescriptions: Record<string, string> = {
   users: 'Gerencie os usuários e permissões do sistema',
   'media-categories': 'Organize mídias em categorias hierárquicas',
   media: 'Faça upload e organize imagens e arquivos',
+  clients: 'Gerencie clientes, leads e relacionamentos comerciais',
+  services: 'Cadastre os tipos de serviço oferecidos',
 }
 
 export const CustomCollectionCards: React.FC<AdminViewProps> = ({

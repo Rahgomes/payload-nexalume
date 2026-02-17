@@ -15,7 +15,7 @@ export const CustomNav: React.FC<ServerProps> = ({ i18n, payload, visibleEntitie
   )
 
   const items = visibleCollections
-    .filter(({ slug }) => slug !== 'media-categories')
+    .filter(({ slug }) => slug !== 'media-categories' && slug !== 'services')
     .map((collection) => ({
       slug: collection.slug,
       label: getTranslation(collection.labels.plural, i18n) as string,
@@ -30,5 +30,20 @@ export const CustomNav: React.FC<ServerProps> = ({ i18n, payload, visibleEntitie
       href: `${adminRoute}/collections/${collection.slug}`,
     }))
 
-  return <NavClient adminRoute={adminRoute} items={items} mediaSubItems={mediaSubItems} />
+  const clientsSubItems = visibleCollections
+    .filter(({ slug }) => slug === 'services')
+    .map((collection) => ({
+      slug: collection.slug,
+      label: getTranslation(collection.labels.plural, i18n) as string,
+      href: `${adminRoute}/collections/${collection.slug}`,
+    }))
+
+  return (
+    <NavClient
+      adminRoute={adminRoute}
+      items={items}
+      mediaSubItems={mediaSubItems}
+      clientsSubItems={clientsSubItems}
+    />
+  )
 }

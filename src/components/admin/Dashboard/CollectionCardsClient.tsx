@@ -3,13 +3,15 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TbUsers, TbPhoto, TbLayoutDashboard } from 'react-icons/tb'
+import { TbUsers, TbPhoto, TbLayoutDashboard, TbAddressBook, TbBriefcase } from 'react-icons/tb'
 
 import './Dashboard.scss'
 
 const collectionIcons: Record<string, React.ReactNode> = {
   users: <TbUsers />,
   media: <TbPhoto />,
+  clients: <TbAddressBook />,
+  services: <TbBriefcase />,
 }
 
 type CardItem = {
