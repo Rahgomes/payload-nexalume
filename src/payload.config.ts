@@ -11,6 +11,7 @@ import { Services } from './collections/Services'
 import { Clients } from './collections/Clients'
 import { MediaCategories } from './collections/MediaCategories'
 import { Media } from './collections/Media'
+import { WhatsappCampaigns } from './collections/WhatsappCampaigns'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,7 +42,7 @@ export default buildConfig({
   routes: {
     admin: '/painel',
   },
-  collections: [Users, Services, Clients, MediaCategories, Media],
+  collections: [Users, Services, Clients, MediaCategories, Media, WhatsappCampaigns],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

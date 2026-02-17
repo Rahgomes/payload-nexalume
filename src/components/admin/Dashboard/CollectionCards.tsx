@@ -10,6 +10,7 @@ const collectionDescriptions: Record<string, string> = {
   media: 'Faça upload e organize imagens e arquivos',
   clients: 'Gerencie clientes, leads e relacionamentos comerciais',
   services: 'Cadastre os tipos de serviço oferecidos',
+  'whatsapp-campaigns': 'Crie e gerencie campanhas de WhatsApp para seus clientes',
 }
 
 export const CustomCollectionCards: React.FC<AdminViewProps> = ({

@@ -13,6 +13,7 @@ import {
   TbChevronRight,
   TbAddressBook,
   TbBriefcase,
+  TbBrandWhatsapp,
 } from 'react-icons/tb'
 
 import './Nav.scss'
@@ -23,6 +24,7 @@ const collectionIcons: Record<string, React.ReactNode> = {
   'media-categories': <TbCategory />,
   clients: <TbAddressBook />,
   services: <TbBriefcase />,
+  'whatsapp-campaigns': <TbBrandWhatsapp />,
 }
 
 type NavItem = {
@@ -36,6 +38,7 @@ type NavClientProps = {
   items: NavItem[]
   mediaSubItems: NavItem[]
   clientsSubItems: NavItem[]
+  toolsSubItems: NavItem[]
 }
 
 export const NavClient: React.FC<NavClientProps> = ({
@@ -43,6 +46,7 @@ export const NavClient: React.FC<NavClientProps> = ({
   items,
   mediaSubItems,
   clientsSubItems,
+  toolsSubItems,
 }) => {
   const pathname = usePathname()
   const { navOpen, navRef } = useNav()
@@ -185,6 +189,34 @@ export const NavClient: React.FC<NavClientProps> = ({
           })}
         </div>
       </div>
+
+      {/* Ferramentas */}
+      {toolsSubItems.length > 0 && (
+        <>
+          <div className="nexalume-nav__divider" />
+          <div className="nexalume-nav__section">
+            <div className="nexalume-nav__section-title">Ferramentas</div>
+            <div className="nexalume-nav__links">
+              {toolsSubItems.map((sub) => {
+                const isSubActive =
+                  pathname.startsWith(sub.href) ||
+                  pathname.includes(`/collections/${sub.slug}`)
+                return (
+                  <Link
+                    key={sub.slug}
+                    href={sub.href}
+                    className={`nexalume-nav__link ${isSubActive ? 'nexalume-nav__link--active' : ''}`}
+                    prefetch={false}
+                  >
+                    {collectionIcons[sub.slug] ?? <TbLayoutDashboard />}
+                    <span className="nexalume-nav__link-label">{sub.label}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </>
+      )}
 
       <div className="nexalume-nav__spacer" />
 

@@ -72,6 +72,7 @@ export interface Config {
     clients: Client;
     'media-categories': MediaCategory;
     media: Media;
+    'whatsapp-campaigns': WhatsappCampaign;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     clients: ClientsSelect<false> | ClientsSelect<true>;
     'media-categories': MediaCategoriesSelect<false> | MediaCategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'whatsapp-campaigns': WhatsappCampaignsSelect<false> | WhatsappCampaignsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -282,6 +284,51 @@ export interface Client {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "whatsapp-campaigns".
+ */
+export interface WhatsappCampaign {
+  id: number;
+  title: string;
+  /**
+   * Use {{nome}} para personalização
+   */
+  messageTemplate: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  targetAudience?: (number | Client)[] | null;
+  scheduledAt: string;
+  sentCount?: number | null;
+  failedCount?: number | null;
+  /**
+   * Dados automáticos do n8n
+   */
+  logs?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status: 'rascunho' | 'agendado' | 'andamento' | 'concluido' | 'erro';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -323,6 +370,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'whatsapp-campaigns';
+        value: number | WhatsappCampaign;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -502,6 +553,22 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "whatsapp-campaigns_select".
+ */
+export interface WhatsappCampaignsSelect<T extends boolean = true> {
+  title?: T;
+  messageTemplate?: T;
+  targetAudience?: T;
+  scheduledAt?: T;
+  sentCount?: T;
+  failedCount?: T;
+  logs?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
