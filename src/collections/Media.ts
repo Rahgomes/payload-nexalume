@@ -7,6 +7,11 @@ export const Media: CollectionConfig = {
     singular: 'Mídia',
     plural: 'Mídias',
   },
+  admin: {
+    components: {
+      beforeListTable: ['@/components/admin/Media/MediaListHeader'],
+    },
+  },
   access: {
     read: () => true,
     create: isAdminOrEditor,
@@ -16,9 +21,73 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      label: 'Texto Alternativo',
       type: 'text',
       required: true,
     },
+    {
+      name: 'description',
+      label: 'Descrição',
+      type: 'textarea',
+      required: false,
+    },
+    {
+      name: 'category',
+      label: 'Categoria',
+      type: 'relationship',
+      relationTo: 'media-categories',
+      required: false,
+    },
+    {
+      name: 'tags',
+      label: 'Tags',
+      type: 'array',
+      required: false,
+      labels: {
+        singular: 'Tag',
+        plural: 'Tags',
+      },
+      fields: [
+        {
+          name: 'tag',
+          label: 'Tag',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
   ],
-  upload: true,
+  upload: {
+    imageSizes: [
+      {
+        name: 'thumbnail',
+        width: 400,
+        height: 300,
+        fit: 'cover',
+        position: 'centre',
+      },
+      {
+        name: 'card',
+        width: 768,
+        height: 576,
+        fit: 'cover',
+        position: 'centre',
+      },
+      {
+        name: 'tablet',
+        width: 1024,
+        height: undefined,
+        fit: 'inside',
+        withoutEnlargement: true,
+      },
+      {
+        name: 'hero',
+        width: 1920,
+        height: 1080,
+        fit: 'cover',
+        position: 'centre',
+      },
+    ],
+    adminThumbnail: 'thumbnail',
+  },
 }

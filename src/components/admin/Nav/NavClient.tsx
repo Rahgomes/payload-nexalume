@@ -2,15 +2,23 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNav } from '@payloadcms/ui'
-import { TbLayoutDashboard, TbUsers, TbPhoto, TbSettings } from 'react-icons/tb'
+import {
+  TbLayoutDashboard,
+  TbUsers,
+  TbPhoto,
+  TbSettings,
+  TbCategory,
+  TbChevronRight,
+} from 'react-icons/tb'
 
 import './Nav.scss'
 
 const collectionIcons: Record<string, React.ReactNode> = {
   users: <TbUsers />,
   media: <TbPhoto />,
+  'media-categories': <TbCategory />,
 }
 
 type NavItem = {
@@ -22,11 +30,13 @@ type NavItem = {
 type NavClientProps = {
   adminRoute: string
   items: NavItem[]
+  mediaSubItems: NavItem[]
 }
 
-export const NavClient: React.FC<NavClientProps> = ({ adminRoute, items }) => {
+export const NavClient: React.FC<NavClientProps> = ({ adminRoute, items, mediaSubItems }) => {
   const pathname = usePathname()
   const { navOpen, navRef } = useNav()
+  const [mediaOpen, setMediaOpen] = useState(false)
 
   const isDashboardActive = pathname === adminRoute || pathname === `${adminRoute}/`
 
@@ -59,7 +69,52 @@ export const NavClient: React.FC<NavClientProps> = ({ adminRoute, items }) => {
         <div className="nexalume-nav__section-title">Menu</div>
         <div className="nexalume-nav__links">
           {items.map(({ href, label, slug }) => {
-            const isActive = pathname.startsWith(href)
+            const isMedia = slug === 'media'
+            const isMediaActive = pathname.startsWith(href)
+            const isMediaCategoryActive =
+              isMedia && pathname.includes('/collections/media-categories')
+            const isActive = isMediaActive || isMediaCategoryActive
+
+            if (isMedia && mediaSubItems.length > 0) {
+              return (
+                <div
+                  key={slug}
+                  className="nexalume-nav__group"
+                  onMouseEnter={() => setMediaOpen(true)}
+                  onMouseLeave={() => setMediaOpen(false)}
+                >
+                  <Link
+                    href={href}
+                    className={`nexalume-nav__link ${isActive ? 'nexalume-nav__link--active' : ''}`}
+                    prefetch={false}
+                  >
+                    {collectionIcons[slug] ?? <TbLayoutDashboard />}
+                    <span className="nexalume-nav__link-label">{label}</span>
+                    <TbChevronRight
+                      className={`nexalume-nav__chevron ${mediaOpen ? 'nexalume-nav__chevron--open' : ''}`}
+                    />
+                  </Link>
+                  <div
+                    className={`nexalume-nav__submenu ${mediaOpen ? 'nexalume-nav__submenu--open' : ''}`}
+                  >
+                    {mediaSubItems.map((sub) => {
+                      const isSubActive = pathname.startsWith(sub.href)
+                      return (
+                        <Link
+                          key={sub.slug}
+                          href={sub.href}
+                          className={`nexalume-nav__submenu-link ${isSubActive ? 'nexalume-nav__submenu-link--active' : ''}`}
+                          prefetch={false}
+                        >
+                          {collectionIcons[sub.slug] ?? <TbLayoutDashboard />}
+                          <span className="nexalume-nav__link-label">{sub.label}</span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            }
 
             return (
               <Link

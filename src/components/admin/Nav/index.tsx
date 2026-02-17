@@ -10,13 +10,25 @@ export const CustomNav: React.FC<ServerProps> = ({ i18n, payload, visibleEntitie
   const { collections } = payload.config
   const adminRoute = payload.config.routes.admin
 
-  const items = collections
-    .filter(({ slug }) => visibleEntities?.collections.includes(slug))
+  const visibleCollections = collections.filter(({ slug }) =>
+    visibleEntities?.collections.includes(slug),
+  )
+
+  const items = visibleCollections
+    .filter(({ slug }) => slug !== 'media-categories')
     .map((collection) => ({
       slug: collection.slug,
       label: getTranslation(collection.labels.plural, i18n) as string,
       href: `${adminRoute}/collections/${collection.slug}`,
     }))
 
-  return <NavClient adminRoute={adminRoute} items={items} />
+  const mediaSubItems = visibleCollections
+    .filter(({ slug }) => slug === 'media-categories')
+    .map((collection) => ({
+      slug: collection.slug,
+      label: getTranslation(collection.labels.plural, i18n) as string,
+      href: `${adminRoute}/collections/${collection.slug}`,
+    }))
+
+  return <NavClient adminRoute={adminRoute} items={items} mediaSubItems={mediaSubItems} />
 }

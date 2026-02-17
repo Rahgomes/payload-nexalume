@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
+import { MediaCategories } from './collections/MediaCategories'
 import { Media } from './collections/Media'
 
 const filename = fileURLToPath(import.meta.url)
@@ -38,7 +39,7 @@ export default buildConfig({
   routes: {
     admin: '/painel',
   },
-  collections: [Users, Media],
+  collections: [Users, MediaCategories, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

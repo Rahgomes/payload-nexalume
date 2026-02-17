@@ -6,6 +6,7 @@ import { CollectionCardsClient } from './CollectionCardsClient'
 
 const collectionDescriptions: Record<string, string> = {
   users: 'Gerencie os usuários e permissões do sistema',
+  'media-categories': 'Organize mídias em categorias hierárquicas',
   media: 'Faça upload e organize imagens e arquivos',
 }
 
