@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminOrEditor } from '@/access'
+import { createAuditLog } from '@/hooks/auditLog'
 
 export const MediaCategories: CollectionConfig = {
   slug: 'media-categories',
@@ -22,6 +23,33 @@ export const MediaCategories: CollectionConfig = {
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdminOrEditor,
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, previousDoc, operation, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: operation === 'create' ? 'create' : 'update',
+          collectionSlug: 'media-categories',
+          recordId: doc.id,
+          doc: doc as unknown as Record<string, unknown>,
+          previousDoc: previousDoc as unknown as Record<string, unknown> | undefined,
+        })
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: 'delete',
+          collectionSlug: 'media-categories',
+          recordId: doc.id,
+          previousDoc: doc as unknown as Record<string, unknown>,
+        })
+      },
+    ],
   },
   fields: [
     {

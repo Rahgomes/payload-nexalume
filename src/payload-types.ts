@@ -73,6 +73,7 @@ export interface Config {
     'media-categories': MediaCategory;
     media: Media;
     'whatsapp-campaigns': WhatsappCampaign;
+    'audit-logs': AuditLog;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     'media-categories': MediaCategoriesSelect<false> | MediaCategoriesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'whatsapp-campaigns': WhatsappCampaignsSelect<false> | WhatsappCampaignsSelect<true>;
+    'audit-logs': AuditLogsSelect<false> | AuditLogsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -329,6 +331,44 @@ export interface WhatsappCampaign {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audit-logs".
+ */
+export interface AuditLog {
+  id: number;
+  user?: (number | null) | User;
+  action: 'create' | 'update' | 'delete' | 'login' | 'logout';
+  collection: 'users' | 'clients' | 'whatsapp-campaigns' | 'services' | 'media' | 'media-categories';
+  recordId?: string | null;
+  summary: string;
+  /**
+   * Snapshot dos campos antes da alteração
+   */
+  changesBefore?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Snapshot dos campos após a alteração
+   */
+  changesAfter?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -374,6 +414,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'whatsapp-campaigns';
         value: number | WhatsappCampaign;
+      } | null)
+    | ({
+        relationTo: 'audit-logs';
+        value: number | AuditLog;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -567,6 +611,21 @@ export interface WhatsappCampaignsSelect<T extends boolean = true> {
   failedCount?: T;
   logs?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audit-logs_select".
+ */
+export interface AuditLogsSelect<T extends boolean = true> {
+  user?: T;
+  action?: T;
+  collection?: T;
+  recordId?: T;
+  summary?: T;
+  changesBefore?: T;
+  changesAfter?: T;
   updatedAt?: T;
   createdAt?: T;
 }

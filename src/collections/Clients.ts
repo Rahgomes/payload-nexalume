@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isAdmin, isAdminOrEditor, isAuthenticated } from '@/access'
+import { createAuditLog } from '@/hooks/auditLog'
 
 export const Clients: CollectionConfig = {
   slug: 'clients',
@@ -19,6 +20,33 @@ export const Clients: CollectionConfig = {
     create: isAdminOrEditor,
     update: isAdminOrEditor,
     delete: isAdmin,
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, previousDoc, operation, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: operation === 'create' ? 'create' : 'update',
+          collectionSlug: 'clients',
+          recordId: doc.id,
+          doc: doc as unknown as Record<string, unknown>,
+          previousDoc: previousDoc as unknown as Record<string, unknown> | undefined,
+        })
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: 'delete',
+          collectionSlug: 'clients',
+          recordId: doc.id,
+          previousDoc: doc as unknown as Record<string, unknown>,
+        })
+      },
+    ],
   },
   fields: [
     {

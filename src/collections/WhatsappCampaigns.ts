@@ -6,6 +6,7 @@ import {
   isAdminFieldAccess,
   checkRole,
 } from '@/access'
+import { createAuditLog } from '@/hooks/auditLog'
 
 export const WhatsappCampaigns: CollectionConfig = {
   slug: 'whatsapp-campaigns',
@@ -82,6 +83,29 @@ export const WhatsappCampaigns: CollectionConfig = {
         }
 
         return doc
+      },
+      async ({ doc, previousDoc, operation, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: operation === 'create' ? 'create' : 'update',
+          collectionSlug: 'whatsapp-campaigns',
+          recordId: doc.id,
+          doc: doc as unknown as Record<string, unknown>,
+          previousDoc: previousDoc as unknown as Record<string, unknown> | undefined,
+        })
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: 'delete',
+          collectionSlug: 'whatsapp-campaigns',
+          recordId: doc.id,
+          previousDoc: doc as unknown as Record<string, unknown>,
+        })
       },
     ],
   },

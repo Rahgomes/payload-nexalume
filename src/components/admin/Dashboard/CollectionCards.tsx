@@ -11,6 +11,7 @@ const collectionDescriptions: Record<string, string> = {
   clients: 'Gerencie clientes, leads e relacionamentos comerciais',
   services: 'Cadastre os tipos de serviço oferecidos',
   'whatsapp-campaigns': 'Crie e gerencie campanhas de WhatsApp para seus clientes',
+  'audit-logs': 'Acompanhe todas as atividades e alterações no sistema',
 }
 
 export const CustomCollectionCards: React.FC<AdminViewProps> = ({

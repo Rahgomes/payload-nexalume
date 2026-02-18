@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { TbUsers, TbPhoto, TbLayoutDashboard, TbAddressBook, TbBriefcase, TbBrandWhatsapp } from 'react-icons/tb'
+import { TbUsers, TbPhoto, TbLayoutDashboard, TbAddressBook, TbBriefcase, TbBrandWhatsapp, TbActivity } from 'react-icons/tb'
 
 import './Dashboard.scss'
 
@@ -13,6 +13,7 @@ const collectionIcons: Record<string, React.ReactNode> = {
   clients: <TbAddressBook />,
   services: <TbBriefcase />,
   'whatsapp-campaigns': <TbBrandWhatsapp />,
+  'audit-logs': <TbActivity />,
 }
 
 type CardItem = {

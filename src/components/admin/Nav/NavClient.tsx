@@ -14,6 +14,7 @@ import {
   TbAddressBook,
   TbBriefcase,
   TbBrandWhatsapp,
+  TbActivity,
 } from 'react-icons/tb'
 
 import './Nav.scss'
@@ -25,6 +26,7 @@ const collectionIcons: Record<string, React.ReactNode> = {
   clients: <TbAddressBook />,
   services: <TbBriefcase />,
   'whatsapp-campaigns': <TbBrandWhatsapp />,
+  'audit-logs': <TbActivity />,
 }
 
 type NavItem = {
@@ -39,6 +41,7 @@ type NavClientProps = {
   mediaSubItems: NavItem[]
   clientsSubItems: NavItem[]
   toolsSubItems: NavItem[]
+  monitoringItems: NavItem[]
 }
 
 export const NavClient: React.FC<NavClientProps> = ({
@@ -47,6 +50,7 @@ export const NavClient: React.FC<NavClientProps> = ({
   mediaSubItems,
   clientsSubItems,
   toolsSubItems,
+  monitoringItems,
 }) => {
   const pathname = usePathname()
   const { navOpen, navRef } = useNav()
@@ -210,6 +214,34 @@ export const NavClient: React.FC<NavClientProps> = ({
                   >
                     {collectionIcons[sub.slug] ?? <TbLayoutDashboard />}
                     <span className="nexalume-nav__link-label">{sub.label}</span>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Monitoria */}
+      {monitoringItems.length > 0 && (
+        <>
+          <div className="nexalume-nav__divider" />
+          <div className="nexalume-nav__section">
+            <div className="nexalume-nav__section-title">Monitoria</div>
+            <div className="nexalume-nav__links">
+              {monitoringItems.map((item) => {
+                const isItemActive =
+                  pathname.startsWith(item.href) ||
+                  pathname.includes(`/collections/${item.slug}`)
+                return (
+                  <Link
+                    key={item.slug}
+                    href={item.href}
+                    className={`nexalume-nav__link ${isItemActive ? 'nexalume-nav__link--active' : ''}`}
+                    prefetch={false}
+                  >
+                    {collectionIcons[item.slug] ?? <TbLayoutDashboard />}
+                    <span className="nexalume-nav__link-label">{item.label}</span>
                   </Link>
                 )
               })}

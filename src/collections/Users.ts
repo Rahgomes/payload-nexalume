@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
+import type { User } from '@/payload-types'
 import { isAdmin, isAdminOrSelf, isAdminFieldAccess } from '@/access'
+import { createAuditLog } from '@/hooks/auditLog'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -38,6 +40,19 @@ export const Users: CollectionConfig = {
         return user
       },
     ],
+    afterLogin: [
+      async ({ req, user }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: user as User,
+          action: 'login',
+          collectionSlug: 'users',
+          recordId: user.id,
+          doc: user as unknown as Record<string, unknown>,
+        })
+        return user
+      },
+    ],
     beforeChange: [
       async ({ data, operation, req }) => {
         // Bootstrap: primeiro usuário criado recebe role admin automaticamente
@@ -52,6 +67,31 @@ export const Users: CollectionConfig = {
           }
         }
         return data
+      },
+    ],
+    afterChange: [
+      async ({ doc, previousDoc, operation, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: operation === 'create' ? 'create' : 'update',
+          collectionSlug: 'users',
+          recordId: doc.id,
+          doc: doc as unknown as Record<string, unknown>,
+          previousDoc: previousDoc as unknown as Record<string, unknown> | undefined,
+        })
+      },
+    ],
+    afterDelete: [
+      async ({ doc, req }) => {
+        await createAuditLog({
+          payload: req.payload,
+          user: req.user ?? null,
+          action: 'delete',
+          collectionSlug: 'users',
+          recordId: doc.id,
+          previousDoc: doc as unknown as Record<string, unknown>,
+        })
       },
     ],
   },
